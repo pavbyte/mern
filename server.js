@@ -5,6 +5,12 @@ const members=require('./Members')
 
 const app=express();
 
+const logger = (req,res,next) => {
+    console.log(`${req.protocol}//${req.host}${req.originalUrl}`);
+    next();
+}
+
+app.use(logger);
 
 const PORT= process.env.PORT || 3300;
 
