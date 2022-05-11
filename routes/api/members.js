@@ -34,4 +34,32 @@ router.post('/',(req,res) => {
     res.json(members);
 })
 
+router.put('/:id',(req,res)=>{
+    const found= members.some(member => member.id=== parseInt(req.params.id))
+
+    if(found){
+        const updMember =req.body;
+        members.forEach(member => {
+            if(member.id === parseInt(req.params.id)){
+                member.name= updMember.name? updMember.name : member.name;
+                member.email=updMember.email? updMember.email : member.email;
+
+            res.json(members);
+            }
+        })
+    } else {
+        res.status(404).json({msg:'no id present in the datastore'})
+    }
+})
+
+router.delete('/:id',(req,res)=>{
+    const found = members.some(member => member.id === parseInt(req.params.id))
+
+    if(found){
+        res.json({msg: 'Member deleted', members: members.filter(member => member.id !== parseInt(req.params.id))});
+    } else {
+        res.status(400).json({msg: ' bad request id not found'})
+    }
+})
+
 module.exports=router;
